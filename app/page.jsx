@@ -1,8 +1,21 @@
 "use client";
-import { Search } from "lucide-react";
-import { search } from "lucide-react";
+import { useState, useEffect } from "react";
+import useQueryState from "../app/useQueryState";
+
+// import { Search } from "lucide-react";
 
 export default function Home() {
+  const [query, setQuery] = useQueryState("search", "");
+  const [currentUrl, setCurrentUrl] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    params.set("search", query);
+    const updateUrl = `${window.location.origin}${
+      window.location.pathname
+    }?${params.toString()}`;
+    setCurrentUrl(updateUrl);
+  }, [query]);
   return (
     <div className="min-h-full flex flex-col gap-4 py-8 max-w-4xl m-auto px-4">
       <header>
@@ -13,10 +26,13 @@ export default function Home() {
         <div>
           <input
             type="text"
-            placeholder="Search"
+            value={query}
+            placeholder="Search..."
             className="input input-bordered w-full"
+            onChange={(e) => setQuery(e.target.value)}
           />
         </div>
+        <p className="p-4">URL : {currentUrl}</p>
       </fieldset>
     </div>
   );
