@@ -1,12 +1,14 @@
 "use client";
 import { useState, useEffect } from "react";
-import useQueryState from "../app/useQueryState";
+import useQueryState from "./UseQueryState";
+import { useDebouceValue } from "./DebouncedValue";
 
 // import { Search } from "lucide-react";
 
 export default function Home() {
   const [query, setQuery] = useQueryState("search", "");
   const [currentUrl, setCurrentUrl] = useState("");
+  const debounceValue = useDebouceValue(value, 500);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -16,6 +18,12 @@ export default function Home() {
     }?${params.toString()}`;
     setCurrentUrl(updateUrl);
   }, [query]);
+
+  React.useEffect(() => {
+    if (debounceValue) {
+      console.log(`Recherche pour : ${debounceValue}`);
+    }
+  }, [debounceValue]);
   return (
     <div className="min-h-full flex flex-col gap-4 py-8 max-w-4xl m-auto px-4">
       <header>
