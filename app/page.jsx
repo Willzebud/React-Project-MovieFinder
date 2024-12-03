@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import useQueryState from "./UseQueryState";
 import { useDebouceValue } from "./DebouncedValue";
 
@@ -8,7 +8,7 @@ import { useDebouceValue } from "./DebouncedValue";
 export default function Home() {
   const [query, setQuery] = useQueryState("search", "");
   const [currentUrl, setCurrentUrl] = useState("");
-  const debounceValue = useDebouceValue(value, 500);
+  const debounceValue = useDebouceValue(query, 500);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
