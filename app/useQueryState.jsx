@@ -1,20 +1,31 @@
 import { useState, useEffect } from "react";
 
-export default function useQueryState(key, initialValue) {
-  const [state, setState] = useState(() => {
-    const params = new URLSearchParams(window.location.search);
-    return params.get(key) || initialValue;
-  });
+export const useQueryState = (queryKey, initialValue) => {
+  const [queryState, setQueryState] = useState(initialValue);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (state === initialValue) {
-      params.delete(key);
-    } else {
-      params.set(key, state);
-    }
-    window.history.replaceState({}, "", `?${params.toString()}`);
-  }, [key, state, initialValue]);
+    const newURL = new URL(window.location);
+    const params = newURL.searchParams;
 
-  return [state, setState];
-}
+    if (params.get(queryKey)) {
+      setQueryState(params.get(queryKey));
+    }
+  }, [queryKey, initialValue]);
+
+  useEffect(() => {
+    if (queryState === initialValue) return;
+
+    const newURL = new URL(window.location);
+    const params = newURL.searchParams;
+
+    if (!queryState) {
+      params.delete(queryKey);
+    } else {
+      params.set(queryKey, queryState);
+    }
+
+    window.history.replaceState(null, "", newURL.toString());
+  }, [queryKey, queryState, initialValue]);
+
+  return [queryState, setQueryState];
+};
