@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 export const useApiKeyRequired = () => {
   useEffect(() => {
-    const localStorageApiKey = localStorage.getItem("omdbApiKey");
+    const localStorageApiKey = localStorage.getItem("omdbApiKey", "5bc5bdcb");
 
     if (!localStorageApiKey) {
       while (!localStorage.getItem("omdbApiKey")) {

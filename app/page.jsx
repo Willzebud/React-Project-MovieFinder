@@ -35,7 +35,7 @@ export default function Home() {
           {isLoading ? <p>...</p> : null}
           {data?.Search?.length > 0
             ? data.Search.map((movie) => (
-                <div key={movie.imbdID}>{movie.Title}</div>
+                <div key={movie.imdbID}>{movie.Title}</div>
               ))
             : null}
         </div>
