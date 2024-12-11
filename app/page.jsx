@@ -31,8 +31,18 @@ export default function Home() {
       </fieldset>
       <main>
         {error ? <p>Error : {error.message}</p> : null}
-        <div className="grid w-full grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-          {isLoading ? <p>...</p> : null}
+        <div className="grid grid-cols-3 gap-8">
+          {isLoading
+            ? Array.from({ length: 5 }).map((_, i) => (
+                <div key={i} className="flex flex-col gap-4">
+                  <div className="w-full h-full object-cover rounded-md shadow aspect-[2/3] skeleton" />
+                  <div>
+                    <p className="text-sm font-medium h-5 w-1/2 skeleton"></p>
+                    <p className="text-xs mt-0.5 text-neutral-content font-medium h-4 w-1/3 skeleton"></p>
+                  </div>
+                </div>
+              ))
+            : null}
           {data?.Search?.length > 0
             ? data.Search.map((movie) => (
                 <div key={movie.imdbID} className="flex flex-col gap-4">
