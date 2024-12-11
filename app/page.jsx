@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <div className="min-h-full flex flex-col gap-4 py-8 max-w-4xl m-auto px-4">
       <header>
-        <h1 className="text-4xl font-bold text-center">MovieFinder</h1>
+        <h1 className="text-4xl font-bold text-center">Movie Finder</h1>
       </header>
       <fieldset className="border p-4 w-full rounded-lg border-neutral">
         <legend>Search</legend>
@@ -35,7 +35,19 @@ export default function Home() {
           {isLoading ? <p>...</p> : null}
           {data?.Search?.length > 0
             ? data.Search.map((movie) => (
-                <div key={movie.imdbID}>{movie.Title}</div>
+                <div key={movie.imdbID} className="flex flex-col gap-4">
+                  <img
+                    src={movie.Poster}
+                    alt={`${movie.Title}'s poster`}
+                    className="w-full h-full object-cover rounded-md shadow aspect-[2/3]"
+                  />
+                  <div>
+                    <p className="text-sm font-medium">{movie.Title}</p>
+                    <p className="text-xs text-neutral-content font-medium">
+                      {movie.Year} | {movie.Type}
+                    </p>
+                  </div>
+                </div>
               ))
             : null}
         </div>
